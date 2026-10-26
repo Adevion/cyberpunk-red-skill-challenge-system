@@ -11,4 +11,17 @@ export function registerSettings() {
       default: false
     }
   );
+
+  game.settings.register(
+    "cyberpunk-red-skill-challenge-system",
+    "showDV",
+    {
+      name: "Show DV to Players",
+      hint: "Display DV values on challenge cards.",
+      scope: "world",
+      config: true,
+      type: Boolean,
+      default: true
+    }
+  );
 }

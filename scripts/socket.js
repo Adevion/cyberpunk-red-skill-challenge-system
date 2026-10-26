@@ -8,18 +8,11 @@ export function registerSocket() {
     return;
   }
 
-  skillChallengeSocket = socketlib.registerModule(
-    "cyberpunk-red-skill-challenge-system"
-  );
-
-  skillChallengeSocket.register(
-    "receiveChallenge",
-    receiveChallenge
-  );
+  skillChallengeSocket = socketlib.registerModule( "cyberpunk-red-skill-challenge-system" );
+  skillChallengeSocket.register( "receiveChallenge", receiveChallenge );
 }
 
 async function receiveChallenge(challengeData) {
-  console.log( "CPR Skill Challenge | Challenge Received", challengeData );
   await ChallengeCard.create( challengeData );
 }
 

@@ -13,6 +13,25 @@
   border-top: 1px solid var(--color-border-light-primary);
 }
 
+.d10-dice-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.d10-number-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.d10 {
+  width: 40px;
+  height: 40px;
+}
+
 .skill-challenge-card {
   border: 1px solid var(--color-border-light-primary);
   border-radius: 8px;
@@ -32,7 +51,7 @@
 
 .challenge-description {
   margin-bottom: 10px;
-  color: #000;
+  color: var(--color-text-light-highlight);
 }
 
 .challenge-instructions {
@@ -65,9 +84,9 @@
 }
 
 .remove-skill {
-text-align: center;
-cursor: pointer;
-color: var(--color-text-dark-secondary);
+  text-align: center;
+  cursor: pointer;
+  color: var(--color-text-dark-secondary);
 }
 
 .remove-skill:hover {
@@ -84,6 +103,19 @@ color: var(--color-text-dark-secondary);
   flex-direction: column;
 }
 
+.challenge-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.challenge-result-image {
+  max-width: 175px;
+  max-height: 35px;
+  width: auto;
+  height: auto;
+}
+
 .skill-challenge-resize {
   display: flex;
   justify-content: flex-end;
@@ -94,11 +126,6 @@ color: var(--color-text-dark-secondary);
 
 .skill-challenge-resize:hover {
   color: var(--color-text-light-highlight);
-}
-
-.skill-challenge-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 #add-skill {

@@ -50,9 +50,6 @@ export class ChallengeDialog {
               const skillKey = $(row).find(".skill-select").val();
               const skillLabel = CPR_SKILLS.find( s => s.key === skillKey )?.label;
               const skillDV = Number( $(row).find(".skill-dv").val() );
-
-              console.log( "Skill Row", { key: skillKey, label: skillLabel, dv: skillDV } );
-
               skills.push({ key: skillKey, label: skillLabel, dv: skillDV });
             });
 
@@ -60,8 +57,6 @@ export class ChallengeDialog {
               ui.notifications.warn( "Add at least one skill." );
               return;
             }
-
-            console.log("Skills Array", skills);
 
             const challenge =
               new ChallengeData({
@@ -71,7 +66,6 @@ export class ChallengeDialog {
                 skills
               });
 
-            console.log(challenge);
             await ChallengeManager.send( challenge );
           }
         },

@@ -1,0 +1,133 @@
+<div class="rollcard">
+
+  <div class="rollcard-top">
+    <div class="cpr-block chat-rollTitle-stat">
+
+      <div class="text-center text-padding-top text-normal text-semi">
+        {{rollTitle}}
+      </div>
+
+      <div class="rollcard-subtitle">
+        <div class="rollcard-subtitle-center text-small">
+          {{subTitle}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rollcard-bottom">
+
+    <div class="cpr-block">
+
+      <div class="d10-rollcard-data">
+
+        <div class="d10-dice-div">
+
+          {{#each faces as |dieFace|}}
+            <img class="{{../diceClass}}" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{dieFace}}.svg" />
+          {{/each}}
+
+          {{#if wasCritSuccess}}
+            <i class="fas fa-plus"></i>
+            <img class="{{diceClass}}" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{criticalRoll}}.svg" />
+          {{/if}}
+
+          {{#if wasCritFail}}
+            <i class="fas fa-minus"></i>
+            <img class="{{diceClass}}" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{criticalRoll}}.svg" />
+          {{/if}}
+
+        </div>
+
+        <div class="d10-number-div">
+
+          <a>
+            <span class="clickable"
+              data-action="toggleVisibility"
+              data-visible-element="d10-data-details">
+
+              {{resultTotal}}
+
+            </span>
+          </a>
+
+        </div>
+
+        <div class="d10-data-div">
+
+          <div class="d10-data-details hide">
+
+            <div class="text-normal text-semi">
+              Roll {{initialRoll}}
+            </div>
+
+            <div class="text-normal text-semi">
+              Skill Level +{{skillLevel}}
+            </div>
+
+            <div class="text-normal text-semi">
+              Stat +{{statValue}}
+            </div>
+
+            {{#if skillMods}}
+              <div class="text-normal text-semi">
+                Skill Mods +{{skillMods}}
+              </div>
+            {{/if}}
+
+            {{#if totalMods}}
+              <div class="text-normal text-semi">
+                Additional Mods {{totalMods}}
+              </div>
+            {{/if}}
+
+            {{#if luck}}
+              <div class="text-normal text-semi">
+                Luck +{{luck}}
+              </div>
+            {{/if}}
+
+            {{#if critSuccess}}
+              <div class="text-normal text-semi">
+                Critical Success +{{criticalRoll}}
+              </div>
+            {{/if}}
+
+            {{#if critFail}}
+              <div class="text-normal text-semi">
+                Critical Failure -{{criticalRoll}}
+              </div>
+            {{/if}}
+
+            <hr>
+
+            <div class="text-normal text-semi">
+              DV {{dv}}
+            </div>
+
+          </div>
+
+          <div class="challenge-result">
+
+            {{#if success}}
+              <img
+                class="challenge-result-image"
+                src="modules/cyberpunk-red-skill-challenge-system/images/pixel-success.webp">
+            {{else}}
+              <img
+                class="challenge-result-image"
+                src="modules/cyberpunk-red-skill-challenge-system/images/pixel-fail.webp">
+            {{/if}}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
