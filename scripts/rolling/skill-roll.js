@@ -53,5 +53,9 @@ export async function executeSkillRoll( actor, selection ) {
   const success = result.success;
   const skillBase = skillData.level + skillData.stat + skillData.mods;
 
+  roll.wasCritSuccess = roll.wasCritSuccess;
+  roll.wasCritFail = roll.wasCritFail;
+  roll.totalModsValue = roll.totalMods;
+
   return { roll, skillData, skillBase, success, resolvedSkill };
 }

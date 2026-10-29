@@ -24,4 +24,15 @@ export function registerSettings() {
       default: true
     }
   );
+
+  game.settings.register(
+    "cyberpunk-red-skill-challenge-system",
+    "templates",
+    {
+      scope: "world",
+      config: false,
+      type: Object,
+      default: {}
+    }
+  );
 }

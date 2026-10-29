@@ -3,9 +3,14 @@ export class ChallengeCard {
     const showDV = game.settings.get( "cyberpunk-red-skill-challenge-system", "showDV" );
     const skillsHtml =
       challengeData.skills.map(skill => `
-        <button type="button" class="skill-challenge-button" data-skill="${skill.key}" data-dv="${skill.dv}" data-challenge="${challengeData.id}">
-          ${skill.label}
-          ${showDV ? `<span class="skill-dv">(DV ${skill.dv})</span>` : "" }
+        <button type="button" 
+          class="skill-challenge-button" 
+          data-skill="${skill.key}" 
+          data-dv="${skill.dv}" 
+          data-challenge="${challengeData.id}" 
+          data-visibility="${challengeData.visibility}">
+            ${skill.label}
+            ${showDV ? `<span class="skill-dv">(DV ${skill.dv})</span>` : "" }
         </button>
       `)
       .join("");

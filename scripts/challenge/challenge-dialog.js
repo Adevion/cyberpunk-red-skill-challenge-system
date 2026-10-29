@@ -5,30 +5,54 @@ import { CPR_SKILLS } from "../constants/cpr-skills.js";
 const skillOptions = CPR_SKILLS.map(skill => ` <option value="${skill.key}" > ${skill.label} </option> `).join("");
 
 export class ChallengeDialog {
-  static async create() {
+  static async create({
+    title = "",
+    description = "",
+    visibility = "open",
+    skills = []
+  } = {}) {
+    const skillsHtml =
+      skills.length ? skills.map(skill => `
+        <div class="skill-row">
+          <select class="skill-select">
+            ${CPR_SKILLS.map(s => ` <option value="${s.key}" ${s.key === skill.key ? "selected" : ""} > ${s.label} </option>  `).join("")}
+          </select>
+          <input type="number" class="skill-dv" value="${skill.dv}" min="1" >
+          <a class="remove-skill"> <i class="fas fa-trash"></i> </a>
+        </div>
+      `).join("")
+      : `
+        <div class="skill-row">
+          <select class="skill-select"> ${skillOptions} </select>
+          <input type="number" class="skill-dv" value="13" min="1" >
+          <a class="remove-skill"> <i class="fas fa-trash"></i> </a>
+        </div>
+      `;
     const content = `
       <form class="skill-challenge-form">
 
         <div class="form-group">
           <label>Title</label>
-          <input type="text" id="challenge-title" placeholder="Warehouse Break-In" >
+          <input type="text" id="challenge-title" placeholder="Warehouse Break-In" value="${title}">
         </div>
 
         <div class="form-group">
           <label>Description</label>
-          <textarea id="challenge-description" rows="3" ></textarea>
+          <textarea id="challenge-description" rows="3" >${description}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label> Result Visibility </label>
+          <select id="result-visibility">
+            <option value="open" ${visibility === "open" ? "selected" : ""}> Open </option>
+            <option value="secret" ${visibility === "secret" ? "selected" : ""}> Secret </option>
+          </select>
         </div>
 
         <hr>
 
         <h3>Skills</h3>
-        <div id="skill-list">
-          <div class="skill-row">
-            <select class="skill-select"> ${skillOptions} </select>
-            <input type="number" class="skill-dv" value="13" min="1" >
-            <a class="remove-skill"> <i class="fas fa-trash"></i> </a>
-          </div>
-        </div>
+        <div id="skill-list"> ${skillsHtml} </div>
         <div class="skill-controls">
           <a id="add-skill"> <i class="fas fa-plus"></i> </a>
         </div>
@@ -62,7 +86,7 @@ export class ChallengeDialog {
               new ChallengeData({
                 title: html.find( "#challenge-title" ).val(),
                 description: html.find( "#challenge-description" ).val(),
-                visibility: "open",
+                visibility: html.find("#result-visibility").val(),
                 skills
               });
 
