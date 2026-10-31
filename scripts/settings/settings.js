@@ -35,4 +35,36 @@ export function registerSettings() {
       default: {}
     }
   );
+
+  game.settings.register(
+    "cyberpunk-red-skill-challenge-system",
+    "themeColor",
+    {
+      name: "Theme Colour",
+      hint: "Select the accent colour used by the Skill Challenge UI.",
+      scope: "client",
+      config: true,
+      type: String,
+      choices: {
+        red: "Red",
+        cyan: "Cyan",
+        green: "Green",
+        purple: "Purple"
+      },
+      default: "red",
+      onChange: () => { applyTheme(); }
+    }
+  );
+}
+
+export function applyTheme() {
+  const theme = game.settings.get( "cyberpunk-red-skill-challenge-system", "themeColor" );
+
+  const colours = { red: "#961f1f", cyan: "#396f79", green: "#456b2a", purple: "#74607d" };
+  const colours_dark = { red: "#601010", cyan: "#274b52", green: "#334d1f", purple: "#584760" };
+  const scrollbar_track = { red: "#5d142b", cyan: "#1f3f45", green: "#2d431c", purple: "#4d4053" };
+
+  document.documentElement.style.setProperty( "--skill-challenge-accent", colours[theme] );
+  document.documentElement.style.setProperty( "--skill-challenge-accent-dark", colours_dark[theme] );
+  document.documentElement.style.setProperty( "--skill-challenge-scrollbar", scrollbar_track[theme] );
 }

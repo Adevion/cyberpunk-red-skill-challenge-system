@@ -1,5 +1,5 @@
 // Settings
-import { registerSettings } from "./settings/settings.js";
+import { registerSettings, applyTheme } from "./settings/settings.js";
 // Socket
 import { registerSocket } from "./socket.js";
 // Control
@@ -19,11 +19,11 @@ Hooks.once("init", () => {
   console.log( "CPR Skill Challenge | Initializing" );
   registerSettings();
   registerSceneControls();
-
 });
 
 Hooks.once("ready", () => {
   registerSocket();
+  applyTheme();
   //
   // Public Macro API
   //

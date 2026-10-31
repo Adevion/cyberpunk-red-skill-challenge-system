@@ -1,6 +1,7 @@
 import { ChallengeData } from "./challenge-data.js";
 import { ChallengeManager } from "./challenge-manager.js";
 import { CPR_SKILLS } from "../constants/cpr-skills.js";
+import { getTemplates, loadTemplate, saveTemplate, deleteTemplate, renameTemplate } from "./template-manager.js";
 
 const skillOptions = CPR_SKILLS.map(skill => ` <option value="${skill.key}" > ${skill.label} </option> `).join("");
 
@@ -28,21 +29,44 @@ export class ChallengeDialog {
           <a class="remove-skill"> <i class="fas fa-trash"></i> </a>
         </div>
       `;
+    const templates = getTemplates();
+    const templateOptions = Object.keys(templates).map(name => `<option value="${name}"> ${name} </option> `).join("");
+
     const content = `
       <form class="skill-challenge-form">
+      
+        <div class="challenge-banner">
+          <span class="banner-text"> SKILL CHALLENGE </span>
+        </div>
 
         <div class="form-group">
-          <label>Title</label>
+          <label class="section-label"> TEMPLATE LIBRARY </label>
+          <div class="template-controls">
+            <select id="template-select">
+              <option value=""> -- Select Template -- </option>
+              ${templateOptions}
+            </select>
+            <button type="button" id="new-template" class="template-button" title="New Challenge" > <i class="fas fa-file-circle-plus"></i> </button>
+            <button type="button" id="save-template" class="template-button" title="Save Template" > <i class="fas fa-save"></i> </button>
+            <button type="button" id="rename-template" class="template-button" title="Rename Template" > <i class="fas fa-pen"></i> </button>
+            <button type="button" id="delete-template" class="template-button" title="Delete Template" > <i class="fas fa-trash"></i> </button>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+          <label class="section-label"> CHALLENGE TITLE </label>
           <input type="text" id="challenge-title" placeholder="Warehouse Break-In" value="${title}">
         </div>
 
         <div class="form-group">
-          <label>Description</label>
+          <label class="section-label"> DESCRIPTION </label>
           <textarea id="challenge-description" rows="3" >${description}</textarea>
         </div>
 
         <div class="form-group">
-          <label> Result Visibility </label>
+          <label class="section-label"> RESULT VISIBILITY </label>
           <select id="result-visibility">
             <option value="open" ${visibility === "open" ? "selected" : ""}> Open </option>
             <option value="secret" ${visibility === "secret" ? "selected" : ""}> Secret </option>
@@ -51,7 +75,7 @@ export class ChallengeDialog {
 
         <hr>
 
-        <h3>Skills</h3>
+        <div class="challenge-section-header"> SKILLS </div>
         <div id="skill-list"> ${skillsHtml} </div>
         <div class="skill-controls">
           <a id="add-skill"> <i class="fas fa-plus"></i> </a>
@@ -98,6 +122,135 @@ export class ChallengeDialog {
       },
 
       render: (html) => {
+
+        // New Template
+        html.find("#new-template").on("click", () => {
+            dialog.close();
+            ChallengeDialog.create();
+          }
+        );
+
+        // Select Template
+        html.find("#template-select").on("change", () => {
+          const templateName =html.find("#template-select").val();
+
+          if (!templateName) {
+            return;
+          }
+
+          const template = loadTemplate( templateName );
+          dialog.close();
+          ChallengeDialog.create( template );
+          }
+        );
+
+        // Save Template  
+        html.find("#save-template").on("click", async () => {
+            const currentTitle = html.find( "#challenge-title" ).val();
+            const templateName = await Dialog.prompt({
+              title: "Save Template",
+              content: `
+                <div class="form-group">
+                  <label>Template Name</label>
+                  <input type="text" id="template-name" value="${currentTitle}" autofocus>
+                </div>
+              `,
+              callback: html => html.find( "#template-name" ).val()
+            });
+
+
+            if (!templateName) {
+              return;
+            }
+            
+            const skills = [];
+            html.find(".skill-row").each((_, row) => {
+              skills.push({
+                key: $(row).find(".skill-select").val(),
+                dv: Number($(row).find(".skill-dv").val())
+              });
+            });
+
+            const templateData = {
+              title: html.find( "#challenge-title" ).val(),
+              description: html.find( "#challenge-description" ).val(),
+              visibility: html.find( "#result-visibility" ).val(),
+              skills
+            };
+
+            try {
+              await saveTemplate( templateName, templateData );
+              ui.notifications.info( `Template "${templateName}" saved.` );
+              dialog.close();
+              ChallengeDialog.create();
+            } catch (err) {
+              ui.notifications.error( err.message );
+            }
+          }
+        );
+
+        // Rename Template
+        html.find("#rename-template").on("click", async () => {
+            const oldName = html.find( "#template-select" ).val();
+
+            if (!oldName) {
+              ui.notifications.warn( "Select a template." );
+              return;
+            }
+
+            const newName = await Dialog.prompt({
+                title: "Rename Template",
+                content:
+                  `
+                    <div class="form-group">
+                      <label> New Name </label>
+                      <input type="text" id="new-template-name" value="${oldName}" >
+                    </div>
+                  `,
+                callback: html => html.find( "#new-template-name" ).val()
+              });
+
+            if (!newName) {
+              return;
+            }
+
+            try {
+              await renameTemplate( oldName, newName );
+              ui.notifications.info( `Template renamed to "${newName}".` );
+
+              dialog.close();
+              ChallengeDialog.create();
+            } catch (err) {
+              ui.notifications.error( err.message );
+            }
+          }
+        );
+
+        // Delete Template
+        html.find("#delete-template").on("click", async () => {
+            const name = html.find( "#template-select" ).val();
+
+            if (!name) {
+              ui.notifications.warn( "Select a template." );
+              return;
+            }
+
+            const confirmed = await Dialog.confirm({
+                title: "Delete Template",
+                content: ` <p> Delete "${name}"? </p> `
+              });
+
+            if (!confirmed) {
+              return;
+            }
+
+            await deleteTemplate( name );
+
+            ui.notifications.info( `Template "${name}" deleted.` );
+            dialog.close();
+            ChallengeDialog.create();
+          }
+        );
 
         // Add new skill line
         html.find("#add-skill").on( "click", () => {
@@ -157,6 +310,6 @@ export class ChallengeDialog {
     });
 
     dialog.render(true);
-    setTimeout(() => { dialog.setPosition({ width: 800, height: 550 }); }, 50);
+    setTimeout(() => { dialog.setPosition({ width: 1000, height: 750 }); }, 50);
   }
 }
