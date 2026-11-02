@@ -1,3 +1,5 @@
+import { MODULE_ID, SETTINGS } from "../constants/constants.js";
+
 export function registerSettings() {
   game.settings.register(
     "cyberpunk-red-skill-challenge-system",
@@ -55,10 +57,35 @@ export function registerSettings() {
       onChange: () => { applyTheme(); }
     }
   );
+
+  game.settings.register(
+      MODULE_ID,
+      SETTINGS.ENABLE_RANDOM_WEATHER,
+      {
+          name: "Add Random Weather Option",
+          hint: "Adds a Random Season entry to the Weather dialog.",
+          scope: "world",
+          config: true,
+          type: Boolean,
+          default: false
+      }
+  );
+
+  game.settings.register(
+    MODULE_ID,
+    "currentWeather",
+    {
+        name: "Current Weather",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: null
+    }
+  );
 }
 
 export function applyTheme() {
-  const theme = game.settings.get( "cyberpunk-red-skill-challenge-system", "themeColor" );
+  const theme = game.settings.get( MODULE_ID, "themeColor" );
 
   const colours = { red: "#961f1f", cyan: "#396f79", green: "#456b2a", purple: "#74607d" };
   const colours_dark = { red: "#601010", cyan: "#274b52", green: "#334d1f", purple: "#584760" };

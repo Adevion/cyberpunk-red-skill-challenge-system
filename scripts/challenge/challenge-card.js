@@ -1,6 +1,8 @@
+import { MODULE_ID } from "../constants/constants.js";
+
 export class ChallengeCard {
   static async create(challengeData) {
-    const showDV = game.settings.get( "cyberpunk-red-skill-challenge-system", "showDV" );
+    const showDV = game.settings.get( MODULE_ID, "showDV" );
     const skillsHtml =
       challengeData.skills.map(skill => `
         <button type="button" 

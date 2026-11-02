@@ -1,4 +1,4 @@
-const MODULE_ID = "cyberpunk-red-skill-challenge-system";
+import { MODULE_ID } from "../constants/constants.js";
 
 export async function saveTemplate( name, data ) {
   const templates = game.settings.get( MODULE_ID, "templates" ) ?? {};

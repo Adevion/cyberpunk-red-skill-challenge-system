@@ -14,6 +14,9 @@ import { CPR_SKILLS } from "./constants/cpr-skills.js";
 import { executeSkillRoll } from "./rolling/skill-roll.js";
 // Visibility
 import { handleResultVisibility } from "./rolling/visibility-handler.js";
+//Weather
+import { WeatherDialog } from "./weather/weather-dialog.js";
+import { getCurrentWeather, getActiveWeather, clearCurrentWeather } from "./weather/weather-service.js";
 
 Hooks.once("init", () => {
   console.log( "CPR Skill Challenge | Initializing" );
@@ -31,7 +34,14 @@ Hooks.once("ready", () => {
     create: (data = {}) => ChallengeDialog.create(data),
     saveTemplate,
     loadTemplate,
-    getTemplates
+    getTemplates,
+
+    weather: {
+      roll: WeatherDialog.create,
+      current: getCurrentWeather,
+      active: getActiveWeather,
+      clear: clearCurrentWeather
+    }
   };
   console.log( "CPR Skill Challenge | Ready" );
 });

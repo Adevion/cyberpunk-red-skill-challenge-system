@@ -235,6 +235,69 @@
 
 /*
 ------------------------------------------------------------
+-- WEATHER Style Options
+------------------------------------------------------------
+*/
+
+.weather-blood-rain {
+    border-color: #8b0000;
+}
+
+.weather-radioactive {
+    border-color: #9acd32;
+}
+
+.weather-clear {
+    border-color: #4ea5ff;
+}
+
+.weather-card h2 i {
+    margin-right: 6px;
+}
+
+.weather-effects {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.weather-effects li {
+    margin-bottom: 2px;
+}
+
+.weather-card h3 {
+    margin-bottom: 4px;
+    color: var(--skill-challenge-accent);
+}
+
+.weather-severity {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.weather-severity-low {
+    color: #63c76a;
+    background: rgba(99,199,106,.15);
+}
+
+.weather-severity-medium {
+    color: #e3c65b;
+    background: rgba(227,198,91,.15);
+}
+
+.weather-severity-high {
+    color: #e3814b;
+    background: rgba(227,129,75,.15);
+}
+
+.weather-severity-extreme {
+    color: #d94a4a;
+    background: rgba(217,74,74,.15);
+}
+
+/*
+------------------------------------------------------------
 -- ID Style Options
 ------------------------------------------------------------
 */

@@ -1,0 +1,24 @@
+<div class="skill-challenge-card weather-card weather-{{weatherClass}}">
+    <h2> <i class="fas {{icon}}"></i> Night City Weather </h2>
+
+    <p> <strong>Season:</strong> {{season}} </p>
+    <p> <strong>Temperature:</strong> {{temperature}} </p>
+    <p> <strong>Conditions:</strong> {{condition}} </p>
+    <p> <strong>Severity:</strong> <span class="weather-severity weather-severity-{{severity}}"> {{severity}} </span> </p>
+
+    {{#if strange}}
+    <p> <strong>Duration:</strong> {{duration}} </p>
+    {{/if}}
+
+    {{#if effects.length}}
+    <br>
+
+    <h3> <i class="fas fa-triangle-exclamation"></i> GM Effects </h3>
+
+    <ul class="weather-effects">
+        {{#each effects}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>
